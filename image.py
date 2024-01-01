@@ -38,20 +38,20 @@ def turn_gray(image):
 
 
 def pixel_to_ascii(image):
-    DENSITY = list('Ñ@#W$9876543210?!abc;:+=-,. ')
+    # DENSITY = list('Ñ@#W$9876543210?!abc;:+=-,. ')
     # DENSITY = list('@#$?!abc;:-,. ')
+    DENSITY = list("a@ ")
     # DENSITY.reverse()
-    print(DENSITY)
     pixels = image.getdata()
     asciiImage = ""
     for pixel in pixels:
-        percent = pixel/255
-        asciiImage += DENSITY[math.ceil(len(DENSITY) * percent) -1]
+        percent = pixel/256
+        asciiImage += DENSITY[math.floor(len(DENSITY) * percent) -1]
 
     return asciiImage
 
 
-def dispay_ascii_image(asciiCharacters, width):
+def dispayable_ascii_image(asciiCharacters, width):
     asciiImage = "\n"
     caretPosition = 1
     for asciiCharacter in asciiCharacters:
@@ -61,7 +61,7 @@ def dispay_ascii_image(asciiCharacters, width):
         else:
             asciiImage += "\n"
             caretPosition = 1
-    print(asciiImage)
+    return asciiImage
 
 
 def ascii_magic(image):
@@ -69,18 +69,18 @@ def ascii_magic(image):
     grayImage       = turn_gray(resizedImage)
     asciiCharacters = pixel_to_ascii(grayImage)
     width, height = grayImage.size
-    dispay_ascii_image(asciiCharacters, width)
+    return dispayable_ascii_image(asciiCharacters, width)
 
 
 def main():
     imagePath = input("Insert the image path: ")
     try:
         image = pimage.open(imagePath)
-        ascii_magic(image)
+        print(ascii_magic(image))
     except FileNotFoundError:
         print("This don't exist stupid")
     except UnidentifiedImageError:
         print("This ain't an image retard")
 
 
-main()
+# main()
