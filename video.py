@@ -1,39 +1,38 @@
-import cv2
+import moviepy.editor
 from pygame import mixer
 import image
 import PIL
 import os
-from time import sleep
 from time import time
 
 
 def open_video(path):
-    badAppleCapture = cv2.VideoCapture(path)
-
-    if(not badAppleCapture.isOpened()):
-        print("That ain't working my dude")
+    try:
+        capture = moviepy.editor.VideoFileClip(path)
+    except IOError:
+        print(f"File {path} not found!")
         exit()
-    
-    return badAppleCapture
+
+    return capture
 
 
 def get_fps(video):
-    return video.get(5)
+    return video.fps
 
 
 def get_total_frames(video):
-    return int(video.get(7))
- 
+    return int(video.fps * video.duration)
+
 
 def render_video_in_ascii(video):
-    fps = get_fps(video)
     totalFrames = get_total_frames(video)
+    videoFrames = video.iter_frames()
 
     asciiFrames = []
-    for i in range(totalFrames):
-        ret, frame = video.read()
+    for frame in videoFrames:
         pilFrame = PIL.Image.fromarray(frame)
         asciiFrames.append(image.ascii_magic(pilFrame))
+    
     return asciiFrames
 
 
