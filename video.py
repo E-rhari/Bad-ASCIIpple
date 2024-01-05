@@ -1,5 +1,4 @@
 import moviepy.editor
-from pygame import mixer
 import image
 import PIL
 import os
@@ -34,13 +33,6 @@ def render_video_in_ascii(video):
         asciiFrames.append(image.ascii_magic(pilFrame))
     
     return asciiFrames
-
-
-def play_song(path):
-    mixer.init() 
-    mixer.music.load(path) 
-    mixer.music.set_volume(1)
-    mixer.music.play()
 
 
 def play_ascii_video(asciiFrames, fps):
