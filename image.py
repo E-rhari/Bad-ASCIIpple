@@ -55,7 +55,7 @@ def pixel_to_ascii(image):
 
 
 def dispayable_ascii_image(asciiCharacters, width):
-    asciiImage = "\n"
+    asciiImage = ""
     caretPosition = 1
     for asciiCharacter in asciiCharacters:
         asciiImage += asciiCharacter
