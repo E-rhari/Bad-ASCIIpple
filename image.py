@@ -40,13 +40,16 @@ def turn_gray(image):
 def pixel_to_ascii(image):
     # DENSITY = list('Ñ@#W$9876543210?!abc;:+=-,. ')
     # DENSITY = list('@#$?!abc;:-,. ')
-    DENSITY = list("a@ ")
-    # DENSITY.reverse()
+    DENSITY = list('@%&#MHGw*+-. ')
+    # print(DENSITY)
+    # DENSITY = list("a@ ")
+    DENSITY.reverse()
     pixels = image.getdata()
     asciiImage = ""
     for pixel in pixels:
-        percent = pixel/256
-        asciiImage += DENSITY[math.floor(len(DENSITY) * percent) -1]
+        percent = pixel/255
+        asciiImage += DENSITY[math.floor((len(DENSITY)-1) * percent)]
+        # print(f'{pixel} - {percent}% - {(math.floor(len(DENSITY) -1) * percent)}')
 
     return asciiImage
 
