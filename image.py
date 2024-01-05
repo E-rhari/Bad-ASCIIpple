@@ -4,8 +4,6 @@ import os
 import math
 
 
-
-
 def resize_image(image, newWidth=None, newHeight=None):
     width, height = image.size
     height *= 0.7
@@ -30,7 +28,7 @@ def console_sensitive_image_resize(image):
     CONSOLE_HEIGHT = CONSOLE_SIZE[1]
 
     # return resize_image(image, newWidth=CONSOLE_WIDTH)
-    return resize_image(image, newHeight=CONSOLE_HEIGHT)
+    return resize_image(image, newHeight=CONSOLE_HEIGHT-1)
 
 
 def turn_gray(image):
@@ -40,7 +38,7 @@ def turn_gray(image):
 def pixel_to_ascii(image):
     # DENSITY = list('Ñ@#W$9876543210?!abc;:+=-,. ')
     # DENSITY = list('@#$?!abc;:-,. ')
-    DENSITY = list('@%&#MHGw*+-. ')
+    DENSITY = list('@%#w*-. ')
     # print(DENSITY)
     # DENSITY = list("a@ ")
     DENSITY.reverse()
@@ -83,7 +81,7 @@ def main():
     except FileNotFoundError:
         print("This don't exist stupid")
     except UnidentifiedImageError:
-        print("This ain't an image retard")
+        print("This ain't no image retard")
 
 
 # main()
