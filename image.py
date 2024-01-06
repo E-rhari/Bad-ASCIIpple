@@ -18,7 +18,6 @@ def resize_image(image, newWidth=None, newHeight=None):
     height *= 0.7
     ratio = height/width
 
-
     if newWidth == None and newHeight == None:
         print("You need at least one measurement of the image for resizing.")
         raise
@@ -37,7 +36,11 @@ def console_sensitive_image_resize(image):
     CONSOLE_HEIGHT = CONSOLE_SIZE[1]
 
     # return resize_image(image, newWidth=CONSOLE_WIDTH)
-    return resize_image(image, newHeight=CONSOLE_HEIGHT-1)
+    resizedImage = resize_image(image, newHeight=CONSOLE_HEIGHT-1)
+    width, height = resizedImage.size
+    if width > CONSOLE_WIDTH:
+        resizedImage = resize_image(image, newWidth=CONSOLE_WIDTH)
+    return resizedImage
 
 
 def turn_gray(image):
@@ -47,9 +50,9 @@ def turn_gray(image):
 def pixel_to_ascii(image):
     # DENSITY = list('Ñ@#W$9876543210?!abc;:+=-,. ')
     # DENSITY = list('@#$?!abc;:-,. ')
-    DENSITY = list('@%#w*-. ')
+    # DENSITY = list('@%#w*-. ')
     # print(DENSITY)
-    # DENSITY = list("a@ ")
+    DENSITY = list("@@ ")
     DENSITY.reverse()
     pixels = image.getdata()
     asciiImage = ""
