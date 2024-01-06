@@ -1,8 +1,17 @@
-import PIL.Image as pimage
 from PIL import UnidentifiedImageError
+import PIL.Image as pimage
 import os
 import math
 
+
+def open_image(path):
+    try:
+        image = pimage.open(path)
+    except FileNotFoundError:
+        print("This don't exist stupid")
+    except UnidentifiedImageError:
+        print("This ain't no image retard")
+    return image
 
 def resize_image(image, newWidth=None, newHeight=None):
     width, height = image.size
@@ -71,17 +80,3 @@ def ascii_magic(image):
     asciiCharacters = pixel_to_ascii(grayImage)
     width, height = grayImage.size
     return dispayable_ascii_image(asciiCharacters, width)
-
-
-def main():
-    imagePath = input("Insert the image path: ")
-    try:
-        image = pimage.open(imagePath)
-        print(ascii_magic(image))
-    except FileNotFoundError:
-        print("This don't exist stupid")
-    except UnidentifiedImageError:
-        print("This ain't no image retard")
-
-
-# main()

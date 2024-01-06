@@ -2,16 +2,50 @@ from video import *
 from audio import *
 
 
-print("1/4 - Opening video...")
-badAppleVideo = open_video('Bad_Apple!!.mp4')
+def bad_apple():
+    ascii_video_magic("Bad_Apple!!.mp4")
 
-print("2/4 - Extracting audio...")
-extract_audio(badAppleVideo)
 
-print("3/4 - Converting to ASCII...")
-asciiFrames = render_video_in_ascii(badAppleVideo)
+def video():
+    videoPath = input("Insert relative path to video: ")
+    ascii_video_magic(videoPath)
 
-print("4/4 - Starting song...")
-play_audio('./temp/audio.mp3')
 
-play_ascii_video(asciiFrames, get_fps(badAppleVideo))
+def image():
+    imagePath = input("Insert relative path to image: ")
+    imageFile = open_image(imagePath)
+    print(ascii_magic(imageFile))
+
+
+def help():
+    for command, explanation in COMMAND_LIST.items():
+        print(f"- {command}\t{explanation}")
+    print("\n")
+
+
+COMMAND_LIST = {"bad_apple":"Plays Bad Apple as ASCII",
+                "video":    "\tPlays a video in terminal as ASCII",
+                "image":    "\tDisplays an image in terminal as ASCII",
+                "exit":     "\tExits the application",
+                "help":     "\tProvides help concerning Bad-ASCIIpple commands.",
+                }
+
+print("Welcome to Bad-ASCIIpple!")
+print("\n")
+help()
+
+userCommand = ""
+commandFunction = None
+while userCommand != "exit":
+    userCommand = input("∮ ")
+    userCommand = userCommand.lower()
+
+    if userCommand == "" or userCommand == "exit":
+        continue
+    elif userCommand in COMMAND_LIST.keys():
+        exec(f"commandFunction = {userCommand}")
+        commandFunction()
+        continue
+    else:
+        print("Error: Command not found\n")
+
