@@ -30,12 +30,13 @@ COMMAND_LIST = {"bad_apple":"Plays Bad Apple as ASCII",
                 "help":     "\tProvides help concerning Bad-ASCIIpple commands.",
                 }
 
-print("Welcome to Bad-ASCIIpple!")
-print("\n")
+
+print(ascii_magic(open_image("splash.png")), end="")
 help()
 
 userCommand = ""
 commandFunction = None
+
 while userCommand != "exit":
     userCommand = input("∮ ")
     userCommand = userCommand.lower()
@@ -48,4 +49,3 @@ while userCommand != "exit":
         continue
     else:
         print("Error: Command not found\n")
-

@@ -2,6 +2,7 @@ from PIL import UnidentifiedImageError
 import PIL.Image as pimage
 import os
 import math
+import json
 
 
 def open_image(path):
@@ -47,19 +48,57 @@ def turn_gray(image):
     return image.convert("L")
 
 
-def pixel_to_ascii(image):
-    # DENSITY = list('Ñ@#W$9876543210?!abc;:+=-,. ')
-    # DENSITY = list('@#$?!abc;:-,. ')
-    # DENSITY = list('@%#w*-. ')
-    # print(DENSITY)
-    DENSITY = list("@@ ")
-    DENSITY.reverse()
+def chooseDensity(createOwn=True):
+    print("Choose a density:\n")
+    while(True):
+        densities = ""
+        with open("./densities.json", "r") as densityFile:
+            densities = json.load(densityFile)
+
+        for density in densities:
+            print(f"\t[{densities.index(density)}] - '{density}'")
+        print(f"\t[{len(densities)}] - <Create your own!>")
+        
+        densityIndex = input("\n∮ R: ")
+
+        try:
+            densityIndex = int(densityIndex)
+        except ValueError:
+            print("Value must be a integer. Please select a valid option:\n")
+            continue
+
+        if(densityIndex < len(densities)):
+            density = densities[int(densityIndex)]
+        elif(densityIndex == len(densities)):
+            density = createDensity()
+        else:
+            print(f"There is no such {densityIndex} density. Please select a valid option:\n")
+            continue
+
+        density = list(density)
+        density.reverse()
+        return density
+
+    
+def createDensity():
+    newDensity = input("Your new denstity: ")
+
+    densities = ""
+    with open("./densities.json", "r") as densityFile:
+        densities = json.load(densityFile)
+        densities.append(newDensity)
+    with open("./densities.json", "w") as densityFile:
+        json.dump(densities, densityFile, indent=4)
+    
+    return newDensity
+
+
+def pixel_to_ascii(image, density):
     pixels = image.getdata()
     asciiImage = ""
     for pixel in pixels:
         percent = pixel/255
-        asciiImage += DENSITY[math.floor((len(DENSITY)-1) * percent)]
-        # print(f'{pixel} - {percent}% - {(math.floor(len(DENSITY) -1) * percent)}')
+        asciiImage += density[math.floor((len(density)-1) * percent)]
 
     return asciiImage
 
@@ -77,9 +116,12 @@ def dispayable_ascii_image(asciiCharacters, width):
     return asciiImage
 
 
-def ascii_magic(image):
+def ascii_magic(image, density=""):
+    if not density:
+        density = chooseDensity()
+
     resizedImage    = console_sensitive_image_resize(image)
     grayImage       = turn_gray(resizedImage)
-    asciiCharacters = pixel_to_ascii(grayImage)
+    asciiCharacters = pixel_to_ascii(grayImage, density)
     width, height = grayImage.size
     return dispayable_ascii_image(asciiCharacters, width)
