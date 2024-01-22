@@ -55,6 +55,6 @@ def ascii_video_magic(path):
     asciiFrames = render_video_as_ascii(video)
 
     print("4/4 - Starting song...")
-    play_audio('./temp/audio.mp3')
+    asyncio.run(play_audio('./temp/audio.mp3'))
 
     play_ascii_video(asciiFrames, get_fps(video))
